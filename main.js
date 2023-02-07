@@ -4,7 +4,7 @@ const { GatewayIntentBits } = discord;
 const client = new discord.Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildPresences]
 });
-const { token } = require("./config.json");
+require('dotenv').config();
 
 
 // quando liga o bot
@@ -130,4 +130,4 @@ client.on("interactionCreate", interaction => {
 })
 
 
-client.login(token); 
+client.login(process.env.DISCORD_TOKEN); 

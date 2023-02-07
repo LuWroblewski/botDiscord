@@ -1,4 +1,5 @@
-const {token, guildID, clientID}= require("./config.json"); 
+const {guildID, clientID}= require("./config.json"); 
+require('dotenv').config();
 
 const { Routes, User, discordSort, ApplicationCommandOptionType, mem, ApplicationCommandPermissionType, Role   } = require('discord.js');
 const { REST } = require('@discordjs/rest');
@@ -49,7 +50,7 @@ description: 'Tutorial de como usar o bot',
 },
 ];
 
-const rest = new REST({ version: '10' }).setToken(token);
+const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 
 (async () => {
   try {
