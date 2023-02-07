@@ -116,8 +116,8 @@ client.on("interactionCreate", interaction => {
           .setImage("https://media.tenor.com/hWWn-MsXY0kAAAAM/anime-bookworm.gif")
           .addFields(
             { name: 'Abraço', value: '**/abraço [usuario] para abraçar quem você tanto ama :smiling_face_with_3_hearts: **' },
-            { name: 'Abraço', value: '**/beijo [usuario] para beijar quem você quer marcar. :kissing_closed_eyes: **' },
-            { name: 'Abraço', value: '**/sexo [usuario] para fazer sexo quando você está com foguinho no rabo. :fire: :flushed: **' },
+            { name: 'Beijo', value: '**/beijo [usuario] para beijar quem você quer marcar. :kissing_closed_eyes: **' },
+            { name: 'Sexo', value: '**/sexo [usuario] para fazer sexo quando você está com foguinho no rabo. :fire: :flushed: **' },
           )
 
         ]
