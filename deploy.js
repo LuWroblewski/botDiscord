@@ -1,14 +1,9 @@
 const {guildID, clientID}= require("./config.json"); 
 require('dotenv').config();
 
-const { Routes, User, discordSort, ApplicationCommandOptionType, mem, ApplicationCommandPermissionType, Role   } = require('discord.js');
+const { Routes, User, discordSort, ApplicationCommandOptionType, mem, ApplicationCommandPermissionType, Role  } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const commands = [
-
-  {
-    name: `comandos`,
-    description: 'lista dos comandos',
-  },
 
   {
     name: `sexo`,
@@ -44,10 +39,22 @@ const commands = [
         required: true,
       }
 ]},
+
+{
+  name: `ficha`,
+  description: 'ficha RPG',
+},
+
+{
+  name: `comandos`,
+  description: 'lista dos comandos',
+},
+
 {
 name: 'ajuda',
 description: 'Tutorial de como usar o bot',
 },
+
 ];
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);

@@ -1,4 +1,6 @@
 const { userMention, ApplicationCommandType, messageLink, GuildMember, ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageButton } = require('discord.js');
+const { Events, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+
 const discord = require('discord.js');
 const { GatewayIntentBits } = discord;
 const client = new discord.Client({
@@ -55,7 +57,7 @@ client.on("guildMemberAdd", member => {
 
 // interações das slashs
 
-client.on("interactionCreate", interaction => {
+client.on("interactionCreate", async interaction => {
   if (interaction.isChatInputCommand()) {
     let user = interaction.options.getUser('user')
     const { commandName } = interaction;
@@ -124,8 +126,48 @@ client.on("interactionCreate", interaction => {
       })
     }
 
+    else if (commandName == `ficha`) {
+
+        const modal = new ModalBuilder()
+        .setCustomId('myModal')
+        .setTitle('Ficha do personagem');
+
+        const playerName = new TextInputBuilder()
+        .setCustomId('playerName')
+        .setLabel("Qual é o SEU nome ?")
+        .setStyle(TextInputStyle.Short);
+
+        const nameCharacter = new TextInputBuilder()
+        .setCustomId('nameCharacter')
+        .setLabel("qual o nome do PERSONAGEM ?")
+        .setStyle(TextInputStyle.Short);
 
 
+        const firstLine = new ActionRowBuilder().addComponents(playerName);
+        const secondLine = new ActionRowBuilder().addComponents(nameCharacter);
+
+        modal.addComponents(firstLine, secondLine);
+        await interaction.showModal(modal);
+
+        client.on(Events.InteractionCreate, interaction => {
+          if (!interaction.isModalSubmit()) return;
+        
+          return interaction.reply({
+
+            embeds: [new discord.EmbedBuilder()
+              .setTitle('Ficha do personagem ')
+              .setColor(0x0099FF)
+              .addFields(
+                { name: 'Nome', value: `** Seu nome é: ${interaction.fields.getTextInputValue('playerName')}**` },
+                { name: 'Personagem', value: `** O nome do personagem é: ${interaction.fields.getTextInputValue('nameCharacter')}**` },
+              )
+  
+            ]
+          })
+
+        });
+
+    } 
   }
 })
 
