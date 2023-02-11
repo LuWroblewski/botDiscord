@@ -1,18 +1,20 @@
 const { userMention, ApplicationCommandType, messageLink, GuildMember, ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageButton } = require('discord.js');
 const { Events, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 
+const {connection, collection} = require('./connection.js');
 const discord = require('discord.js');
 const { GatewayIntentBits } = discord;
 const client = new discord.Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildPresences]
 });
 require('dotenv').config();
-
+connection()
 
 // quando liga o bot
 
 client.on("ready", () => {
   console.log(`O bot ${client.user.tag} esta ativo!`)
+  console.log()
   client.user.setActivity('Minecraft', {
     type: 0
   })
@@ -149,9 +151,20 @@ client.on("interactionCreate", async interaction => {
         modal.addComponents(firstLine, secondLine);
         await interaction.showModal(modal);
 
+        
+
         client.on(Events.InteractionCreate, interaction => {
           if (!interaction.isModalSubmit()) return;
         
+          collection
+          .insert([{ playerName: interaction.fields.getTextInputValue('playerName'), nameCharacter: interaction.fields.getTextInputValue('nameCharacter') }])
+          .then(() => {
+            console.log('Enviado com sucesso');
+          })
+          .catch((error) => {
+            console.log(error );
+          })
+
           return interaction.reply({
 
             embeds: [new discord.EmbedBuilder()
@@ -165,6 +178,7 @@ client.on("interactionCreate", async interaction => {
             ]
           })
 
+          
         });
 
     } 
