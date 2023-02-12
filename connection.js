@@ -15,7 +15,7 @@ function connection() {
       db.on('error', (error) => {
         console.error(`Database error: ${error}`);
       });
-      
+
       return db;
 
     });
