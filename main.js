@@ -166,7 +166,6 @@ client.on("interactionCreate", async interaction => {
           })
 
           return interaction.reply({
-
             embeds: [new discord.EmbedBuilder()
               .setTitle('Ficha do personagem ')
               .setColor(0x0099FF)
