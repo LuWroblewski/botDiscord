@@ -156,7 +156,7 @@ client.on("interactionCreate", async interaction => {
         client.on(Events.InteractionCreate, async interaction => {
           if (!interaction.isModalSubmit()) return;
         
-          await collection
+          collection
           .insert([{ playerName: interaction.fields.getTextInputValue('playerName'), nameCharacter: interaction.fields.getTextInputValue('nameCharacter') }])
           .then(() => {
             console.log('Enviado com sucesso');
