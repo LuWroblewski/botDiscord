@@ -26,7 +26,7 @@ client.on("guildMemberAdd", member => {
   member.guild.channels.cache.get('1013494771517497374').send({
     embeds: [new discord.EmbedBuilder()
       .setTitle('Bem vindo ao server de teste :partying_face: ')
-      .setDescription(`bem vindo ${member.user} `)
+      .setDescription(`bem vindo ${member.user}. Clique no botão para ter acesso ao restante do servidor`)
       .setColor('Yellow')
       .setImage("https://c.tenor.com/I1JtFdfmNP8AAAAC/bem-vindo-cute.gif")
       .addFields(
