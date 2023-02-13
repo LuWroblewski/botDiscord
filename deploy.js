@@ -1,4 +1,3 @@
-const {guildID, clientID}= require("./config.json"); 
 require('dotenv').config();
 
 const { Routes, User, discordSort, ApplicationCommandOptionType, mem, ApplicationCommandPermissionType, Role  } = require('discord.js');
