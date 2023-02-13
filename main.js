@@ -131,7 +131,7 @@ client.on("interactionCreate", async interaction => {
     else if (commandName == `ficha`) {
 
         const modal = new ModalBuilder()
-        .setCustomId('myModal')
+        .setCustomId('modalFicha')
         .setTitle('Ficha do personagem');
 
         const playerName = new TextInputBuilder()
@@ -150,39 +150,41 @@ client.on("interactionCreate", async interaction => {
 
         modal.addComponents(firstLine, secondLine);
         await interaction.showModal(modal);
-
-        
-
-        client.on(Events.InteractionCreate, async interaction => {
-          if (!interaction.isModalSubmit()) return;
-        
-          collection
-          .insert([{ playerName: interaction.fields.getTextInputValue('playerName'), nameCharacter: interaction.fields.getTextInputValue('nameCharacter') }])
-          .then(() => {
-            console.log('Enviado com sucesso');
-          })
-          .catch((error) => {
-            console.log(error );
-          })
-
-          return interaction.reply({
-            embeds: [new discord.EmbedBuilder()
-              .setTitle('Ficha do personagem ')
-              .setColor(0x0099FF)
-              .addFields(
-                { name: 'Nome', value: `** Seu nome é: ${interaction.fields.getTextInputValue('playerName')}**` },
-                { name: 'Personagem', value: `** O nome do personagem é: ${interaction.fields.getTextInputValue('nameCharacter')}**` },
-              )
-  
-            ]
-          })
-
-          
-        });
-
     } 
   }
 })
 
+client.on("interactionCreate", async interaction => {
+  if (!interaction.isModalSubmit()) return;
+
+  if (interaction.customId === 'modalFicha') {
+
+    collection
+    .insert([{ playerName: interaction.fields.getTextInputValue('playerName'), nameCharacter: interaction.fields.getTextInputValue('nameCharacter') }])
+    .then(() => {
+      console.log('Enviado com sucesso');
+    })
+    .catch((error) => {
+      console.log(error );
+    })
+
+    await interaction.reply({
+      embeds: [new discord.EmbedBuilder()
+        .setTitle('Ficha do personagem ')
+        .setColor(0x0099FF)
+        .addFields(
+          { name: 'Nome', value: `** Seu nome é: ${interaction.fields.getTextInputValue('playerName')}**` },
+          { name: 'Personagem', value: `** O nome do personagem é: ${interaction.fields.getTextInputValue('nameCharacter')}**` },
+        )
+  
+      ]
+    })
+
+  }
+
+
+
+  
+});
 
 client.login(process.env.DISCORD_TOKEN); 
