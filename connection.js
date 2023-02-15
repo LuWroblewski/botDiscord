@@ -10,5 +10,5 @@ function connection() {
     console.log('Connected correctly to mongoDB');
   });
 }
-  
-module.exports = {connection, collection}
+
+module.exports = { connection, collection }
