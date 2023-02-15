@@ -52,7 +52,7 @@ const commands = [
   new SlashCommandBuilder()
     .setName('configsinicial')
     .setDescription('Configure o bot para dar boas vindas')
-    .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles),
 
   new SlashCommandBuilder()
     .setName('comandos')
