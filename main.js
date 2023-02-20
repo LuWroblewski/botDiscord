@@ -222,7 +222,7 @@ client.on("interactionCreate", async interaction => {
 
 client.on("guildMemberAdd", async member => {
 
-  member.guild.channels.cache.get(interactions[0]).send({
+  member.guild.channels.cache.get(interactions[0])({
     embeds: [new discord.EmbedBuilder()
       .setTitle('Bem vindo ao server de teste :partying_face: ')
       .setDescription(`bem vindo ${member.user}. Clique no botão para ter acesso ao restante do servidor`)
