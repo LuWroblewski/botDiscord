@@ -222,7 +222,7 @@ client.on("interactionCreate", async interaction => {
 
 client.on("guildMemberAdd", async member => {
 
-  member.guild.channels.cache.get(interactions[0])({
+  member.guild.channels.cache.get(interactions[0]).send({
     embeds: [new discord.EmbedBuilder()
       .setTitle('Bem vindo ao server de teste :partying_face: ')
       .setDescription(`bem vindo ${member.user}. Clique no botão para ter acesso ao restante do servidor`)
@@ -238,7 +238,9 @@ client.on("guildMemberAdd", async member => {
         .setLabel('Membro')
         .setStyle(ButtonStyle.Danger)
     )]
+
   })
+})
 
   client.on('interactionCreate', async interaction => {
 
@@ -248,14 +250,14 @@ client.on("guildMemberAdd", async member => {
       interaction.followUp({
         embeds: [new discord.EmbedBuilder()
           .setTitle(':white_check_mark: Cargo adicionado')
-          .setDescription(`Cargo adicionado para ${member.user}`)
+          .setDescription(`Cargo adicionado para ${interaction.member}`)
           .setColor('Purple')
         ]
       })
     }
   })
 
-})
+
 
 
 
