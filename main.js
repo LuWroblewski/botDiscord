@@ -1,18 +1,21 @@
 const interactions = []
 
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, discord } = require('discord.js');
-require('dotenv').config();
+
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const discord = require('discord.js');
+
 const { GatewayIntentBits } = discord;
 const client = new discord.Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildPresences]
 });
 
-const { connection, collection } = require('./connectionBD/connection.js');
+const { connection, collection } = require('./connection.js');
+const { ajuda, abraco, avatar, beijo, comandos, sexo, modalFicha, modalConfig } = require('./commands.js');
+
+require('dotenv').config();
 connection()
 
-const { ajuda, abraco, avatar, beijo, comandos, sexo, modalFicha, modalConfig } = require('./commands/commands.js');
-
-
+// quando liga o bot
 
 client.on("ready", () => {
   console.log(`O bot ${client.user.tag} esta ativo!`)
@@ -22,6 +25,7 @@ client.on("ready", () => {
   })
 })
 
+// interações das slashs
 
 client.on("interactionCreate", async interaction => {
   if (interaction.isChatInputCommand()) {
