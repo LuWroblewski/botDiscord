@@ -42,7 +42,7 @@ const commands = [
       option
         .setName('user')
         .setDescription('Usuario para mostrar a foto')
-        .setRequired(false)
+        .setRequired(true)
     ),
 
   new SlashCommandBuilder()

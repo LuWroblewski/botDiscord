@@ -1,18 +1,17 @@
 const interactions = []
+connection()
 
-
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
-const { connection, collection } = require('./connection.js');
-const discord = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, discord } = require('discord.js');
+require('dotenv').config();
 const { GatewayIntentBits } = discord;
 const client = new discord.Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildPresences]
 });
-require('dotenv').config();
-connection()
 
-// quando liga o bot
+const { connection, collection } = require('./connectionBD/connection.js');
+const { ajuda, abraco, avatar, beijo, comandos, sexo, modalFicha, modalConfig } = require('./commands/commands.js');
+
+
 
 client.on("ready", () => {
   console.log(`O bot ${client.user.tag} esta ativo!`)
@@ -22,7 +21,6 @@ client.on("ready", () => {
   })
 })
 
-// interações das slashs
 
 client.on("interactionCreate", async interaction => {
   if (interaction.isChatInputCommand()) {
@@ -30,137 +28,45 @@ client.on("interactionCreate", async interaction => {
     const { commandName } = interaction;
 
     if (commandName == `ajuda`) {
-      return interaction.reply({
-        embeds: [new discord.EmbedBuilder()
-          .setTitle('Chamou ajuda? :sunglasses:')
-          .setDescription(`Aqui está algumas duvidas frequentes: `)
-          .setColor('White')
-          .setImage("https://y.yarn.co/1db9c9f6-c612-4958-a6f7-2995393acfba_text.gif")
-          .addFields(
-            { name: 'Como usar o bot?', value: '**Para usar algum comando digite /oNomeDoComando [usuario].**' },
-            { name: 'Como ver os comandos do bot?', value: 'Digite **/comandos**' },
-          )
-        ]
-      })
+      return interaction.reply(
+        ajuda()
+      )
     }
 
     if (commandName == `sexo`) {
-      return interaction.reply({
-
-        embeds: [new discord.EmbedBuilder()
-          .setTitle('Alguem aqui está com fogo no rabo :fire:')
-          .setDescription(`<@${interaction.user.id}> fez sexo com ${user}`)
-          .setColor('Gold')
-          .setImage("http://i.redd.it/bpx5l5b8dym41.gif")
-        ]
-      })
+      return interaction.reply(
+        sexo(interaction, user)
+      )
     }
     else if (commandName == `beijo`) {
-      return interaction.reply({
-
-        embeds: [new discord.EmbedBuilder()
-          .setTitle('Um *beijinho* para lhe deixar feliz :heart:')
-          .setDescription(`<@${interaction.user.id}> **beijou** ${user}`)
-          .setColor('DarkRed')
-          .setImage("https://acegif.com/wp-content/uploads/anime-kiss-23.gif")
-        ]
-      })
+      return interaction.reply(
+        beijo(interaction, user)
+      )
     }
     else if (commandName == `abraço`) {
-      return interaction.reply({
-        embeds: [new discord.EmbedBuilder()
-          .setTitle('Um abraço quentinho? :pleading_face:')
-          .setDescription(`<@${interaction.user.id}> abraçou ${user}`)
-          .setColor('DarkVividPink')
-          .setImage("https://media2.giphy.com/media/PHZ7v9tfQu0o0/giphy.gif")
-        ]
-      })
+      return interaction.reply(
+        abraco(interaction, user)
+      )
     }
-    else if (commandName == `comandos`) {
-      return interaction.reply({
-        embeds: [new discord.EmbedBuilder()
-          .setTitle('Aqui está uma lista dos comandos :partying_face: ')
-          .setDescription(`Lista dos comandos que posso fazer. :heart: `)
-          .setColor(0x0099FF)
-          .setImage("https://media.tenor.com/hWWn-MsXY0kAAAAM/anime-bookworm.gif")
-          .addFields(
-            { name: 'Ajuda', value: '**/ajuda se você precisar de ajuda **' },
-            { name: 'Avatar', value: '**/avatar [usuario] ou só /avatar para ver a foto de perfil sua ou dos outros **' },
-            { name: 'Abraço', value: '**/abraço [usuario] para abraçar quem você tanto ama :smiling_face_with_3_hearts: **' },
-            { name: 'Beijo', value: '**/beijo [usuario] para beijar quem você quer marcar. :kissing_closed_eyes: **' },
-            { name: 'Configsinicial', value: '**/configsinicial para você ADM do server configurar para ter mensagem de boas vindas **' },
-            { name: 'Ficha', value: '**/ficha para criar uma ficha de personagem (será usado para nada)**' },
-            { name: 'Sexo', value: '**/sexo [usuario] para fazer sexo quando você está com foguinho no rabo. :fire: :flushed: **' }
-          )
 
-        ]
-      })
+    else if (commandName == `comandos`) {
+      return interaction.reply(
+        comandos()
+      )
     }
     else if (commandName == `avatar`) {
-      const membro = interaction.options.getMember('user') || interaction.member
-      return interaction.reply({
-        embeds: [new discord.EmbedBuilder()
-          .setTitle('Aqui está a foto de perfil :sparkles:')
-          .setDescription(`Aqui está a foto de perfil do user: ${membro}`)
-          .setImage(membro.displayAvatarURL({ dynamic: false, size: 4096 }))
-          .setColor(0xFF0000)
-        ]
-      })
+      return interaction.reply(
+        avatar(user)
+      )
     }
 
     else if (commandName == `ficha`) {
-
-      const modal = new ModalBuilder()
-        .setCustomId('modalFicha')
-        .setTitle('Ficha do personagem');
-
-      const playerName = new TextInputBuilder()
-        .setCustomId('playerName')
-        .setLabel("Qual é o SEU nome ?")
-        .setStyle(TextInputStyle.Short);
-
-      const nameCharacter = new TextInputBuilder()
-        .setCustomId('nameCharacter')
-        .setLabel("qual o nome do PERSONAGEM ?")
-        .setStyle(TextInputStyle.Short);
-
-
-      const firstLine = new ActionRowBuilder().addComponents(playerName);
-      const secondLine = new ActionRowBuilder().addComponents(nameCharacter);
-
-      modal.addComponents(firstLine, secondLine);
-      await interaction.showModal(modal);
+      modalFicha(interaction)
     }
 
     else if (commandName == `configsinicial`) {
-
-      const modal = new ModalBuilder()
-        .setCustomId('modalConfig')
-        .setTitle('Configurações do bot');
-
-      const chatWelcome = new TextInputBuilder()
-        .setCustomId('chatWelcome')
-        .setLabel("Em qual chat sera as boas vindas")
-        .setPlaceholder('Digite apenas o ID')
-        .setStyle(TextInputStyle.Short)
-        .setRequired(true);
-
-      const roleWelcome = new TextInputBuilder()
-        .setCustomId('roleWelcome')
-        .setLabel("Qual será o cargo inicial?")
-        .setPlaceholder('Digite apenas o ID')
-        .setStyle(TextInputStyle.Short)
-        .setRequired(true);
-
-
-      const firstLine = new ActionRowBuilder().addComponents(chatWelcome);
-      const secondLine = new ActionRowBuilder().addComponents(roleWelcome);
-
-      modal.addComponents(firstLine, secondLine);
-      await interaction.showModal(modal);
+      modalConfig(interaction)
     }
-
-
   }
 })
 
@@ -168,7 +74,6 @@ client.on("interactionCreate", async interaction => {
   if (!interaction.isModalSubmit()) return;
 
   if (interaction.customId === 'modalFicha') {
-
     collection
       .insert([{ playerName: interaction.fields.getTextInputValue('playerName'), nameCharacter: interaction.fields.getTextInputValue('nameCharacter') }])
       .then(() => {
@@ -242,20 +147,20 @@ client.on("guildMemberAdd", async member => {
   })
 })
 
-  client.on('interactionCreate', async interaction => {
+client.on('interactionCreate', async interaction => {
 
-    if (interaction.customId === 'membro') {
-      interaction.member.roles.add(interactions[1])
-      await interaction.update({ components: [] })
-      interaction.followUp({
-        embeds: [new discord.EmbedBuilder()
-          .setTitle(':white_check_mark: Cargo adicionado')
-          .setDescription(`Cargo adicionado para ${interaction.member}`)
-          .setColor('Purple')
-        ]
-      })
-    }
-  })
+  if (interaction.customId === 'membro') {
+    interaction.member.roles.add(interactions[1])
+    await interaction.update({ components: [] })
+    interaction.followUp({
+      embeds: [new discord.EmbedBuilder()
+        .setTitle(':white_check_mark: Cargo adicionado')
+        .setDescription(`Cargo adicionado para ${interaction.member}`)
+        .setColor('Purple')
+      ]
+    })
+  }
+})
 
 
 
