@@ -9,8 +9,8 @@ const client = new discord.Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildPresences]
 });
 
-const { connection, collection } = require('./connection.js');
-const { ajuda, abraco, avatar, beijo, comandos, sexo, modalFicha, modalConfig } = require('./commands.js');
+const { connection, collection } = require('./connectionBD/connection.js');
+const { ajuda, abraco, avatar, beijo, comandos, sexo, modalFicha, modalConfig } = require('./commands/commands.js');
 
 require('dotenv').config();
 connection()
