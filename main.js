@@ -1,5 +1,4 @@
 const interactions = []
-connection()
 
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle, discord } = require('discord.js');
 require('dotenv').config();
@@ -9,6 +8,8 @@ const client = new discord.Client({
 });
 
 const { connection, collection } = require('./connectionBD/connection.js');
+connection()
+
 const { ajuda, abraco, avatar, beijo, comandos, sexo, modalFicha, modalConfig } = require('./commands/commands.js');
 
 
